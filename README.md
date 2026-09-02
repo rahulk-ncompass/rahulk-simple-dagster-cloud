@@ -1,7 +1,5 @@
 # Simple Dagster Cloud
 
-A minimal Dagster orchestration setup deployed on AWS with Docker containerization and CodeDeploy automation. This project demonstrates how to run Dagster workloads in a containerized environment on cloud infrastructure.
-
 ## What is this?
 
 This repository contains a simple Dagster job orchestration setup that includes:
@@ -16,22 +14,12 @@ This repository contains a simple Dagster job orchestration setup that includes:
 
 - **Language:** Python 3.12
 - **Framework / Runtime:** Dagster (orchestration platform)
-- **Key Libraries:** 
+- **Key Libraries:**
   - `dagster` - Core orchestration engine
   - `dagster-webserver` - Web UI for job monitoring and execution
 - **Deployment:** Docker + Docker Compose
 - **CI/CD:** AWS CodeBuild + AWS CodeDeploy
-- **Storage:** SQLite (local storage in `dagster_home`)
-
-## How it's organized
-
-simple_dagster/ Dagster job definitions and assets assets.py Computational assets (addition, multiplication) definitions.py Dagster Definitions entry point
-
-scripts/ Deployment scripts start_container.sh Docker Compose startup with ECR login stop_container.sh Container shutdown
-
-Dockerfile Multi-stage Python image, runs gRPC code server docker-compose.yaml Three-service setup: code, webserver, daemon dagster.yaml Dagster configuration (telemetry, storage) workspace.yaml Workspace pointing to gRPC code server buildspec.yaml AWS CodeBuild build specification appspec.yml AWS CodeDeploy deployment specification pyproject.toml Python project metadata requirements.txt Python dependencies
-
-Code
+- **Storage:** AWS RDS
 
 **How it fits together:**
 
@@ -43,7 +31,18 @@ The architecture uses three Docker containers orchestrated by Docker Compose:
 
 3. **dagster-daemon**: Runs the Dagster daemon process for scheduling and event handling.
 
-All three services share a single `dagster_home` volume for persistent state (SQLite database). The deployment pipeline uses AWS CodeBuild to build the Docker image and push it to Amazon ECR, then CodeDeploy handles the container orchestration on the target EC2 instance.
+All three services share a single db for persistent state. The deployment pipeline uses AWS CodeBuild to build the Docker image and push it to Amazon ECR, then CodeDeploy handles the container orchestration on the target EC2 instance.
 
 ## Flow:
+
 Codepipeline(source: github) -> Codedeploy(create a image and push to ECR, appspec.yml as artifact) -> codedeploy(uses the artifact and run the container)
+
+## .env:
+
+DAGSTER_MYSQL_HOST=
+DAGSTER_MYSQL_USERNAME=
+DAGSTER_MYSQL_PASSWORD=
+DAGSTER_MYSQL_DB=
+
+- store this in the directory /home/ubuntu/rahulk-dagster
+- if storing somewhere else use: docker compose --env-file <env-path> up

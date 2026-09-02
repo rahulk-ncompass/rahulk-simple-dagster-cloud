@@ -2,5 +2,14 @@ telemetry:
   enabled: false
 
 storage:
-  sqlite:
-    base_dir: /opt/dagster/dagster_home
+  mysql:
+    mysql_db:
+      hostname:
+        env: DAGSTER_MYSQL_HOST
+      username:
+        env: DAGSTER_MYSQL_USERNAME
+      password:
+        env: DAGSTER_MYSQL_PASSWORD
+      db_name:
+        env: DAGSTER_MYSQL_DB
+      port: 3306

@@ -4,6 +4,10 @@ services:
     container_name: dagster-code
     environment:
       DAGSTER_HOME: /opt/dagster/dagster_home
+      DAGSTER_MYSQL_HOST: ${DAGSTER_MYSQL_HOST}
+      DAGSTER_MYSQL_USERNAME: ${DAGSTER_MYSQL_USERNAME}
+      DAGSTER_MYSQL_PASSWORD: ${DAGSTER_MYSQL_PASSWORD}
+      DAGSTER_MYSQL_DB: ${DAGSTER_MYSQL_DB}
     volumes:
       - dagster_home:/opt/dagster/dagster_home
     expose:
@@ -24,6 +28,10 @@ services:
     container_name: dagster-webserver
     environment:
       DAGSTER_HOME: /opt/dagster/dagster_home
+      DAGSTER_MYSQL_HOST: ${DAGSTER_MYSQL_HOST}
+      DAGSTER_MYSQL_USERNAME: ${DAGSTER_MYSQL_USERNAME}
+      DAGSTER_MYSQL_PASSWORD: ${DAGSTER_MYSQL_PASSWORD}
+      DAGSTER_MYSQL_DB: ${DAGSTER_MYSQL_DB}
     volumes:
       - dagster_home:/opt/dagster/dagster_home
     ports:
@@ -45,6 +53,10 @@ services:
     container_name: dagster-daemon
     environment:
       DAGSTER_HOME: /opt/dagster/dagster_home
+      DAGSTER_MYSQL_HOST: ${DAGSTER_MYSQL_HOST}
+      DAGSTER_MYSQL_USERNAME: ${DAGSTER_MYSQL_USERNAME}
+      DAGSTER_MYSQL_PASSWORD: ${DAGSTER_MYSQL_PASSWORD}
+      DAGSTER_MYSQL_DB: ${DAGSTER_MYSQL_DB}
     volumes:
       - dagster_home:/opt/dagster/dagster_home
     depends_on:
