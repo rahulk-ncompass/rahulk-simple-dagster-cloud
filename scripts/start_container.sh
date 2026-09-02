@@ -18,13 +18,20 @@ export DAGSTER_MYSQL_USERNAME=$(echo "$SECRET_JSON" | python3 -c 'import sys,jso
 export DAGSTER_MYSQL_PASSWORD=$(echo "$SECRET_JSON" | python3 -c 'import sys,json; print(json.load(sys.stdin)["DAGSTER_MYSQL_PASSWORD"])')
 export DAGSTER_MYSQL_DB=$(echo "$SECRET_JSON" | python3 -c 'import sys,json; print(json.load(sys.stdin)["DAGSTER_MYSQL_DB"])')
 
+echo "Fetching Dagster image URI from Parameter Store..."
+export DAGSTER_IMAGE_URI=$(aws ssm get-parameter \
+  --name "/dagster/ecr/image-uri" \
+  --region ap-south-1 \
+  --query "Parameter.Value" \
+  --output text)
+
 echo "Logging in to Amazon ECR..."
 aws ecr get-login-password --region ap-south-1 | \
 docker login --username AWS \
 --password-stdin 368355641188.dkr.ecr.ap-south-1.amazonaws.com
 
 echo "Pulling latest Dagster image..."
-docker pull 368355641188.dkr.ecr.ap-south-1.amazonaws.com/rahulk-dagster:latest
+docker pull ${DAGSTER_IMAGE_URI}
 
 echo "Starting Dagster containers..."
 docker compose up -d

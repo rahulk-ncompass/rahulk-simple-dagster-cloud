@@ -1,6 +1,6 @@
 services:
   dagster-code:
-    image: 368355641188.dkr.ecr.ap-south-1.amazonaws.com/rahulk-dagster:latest
+    image: ${DAGSTER_IMAGE_URI}
     container_name: dagster-code
     environment:
       DAGSTER_HOME: /opt/dagster/dagster_home
@@ -22,7 +22,7 @@ services:
       start_period: 10s
 
   dagster-webserver:
-    image: 368355641188.dkr.ecr.ap-south-1.amazonaws.com/rahulk-dagster:latest
+    image: ${DAGSTER_IMAGE_URI}
     container_name: dagster-webserver
     environment:
       DAGSTER_HOME: /opt/dagster/dagster_home
@@ -45,7 +45,7 @@ services:
       - /opt/dagster/app/workspace.yaml
 
   dagster-daemon:
-    image: 368355641188.dkr.ecr.ap-south-1.amazonaws.com/rahulk-dagster:latest
+    image: ${DAGSTER_IMAGE_URI}
     container_name: dagster-daemon
     environment:
       DAGSTER_HOME: /opt/dagster/dagster_home
