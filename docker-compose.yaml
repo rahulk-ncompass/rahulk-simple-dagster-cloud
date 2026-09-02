@@ -8,8 +8,6 @@ services:
       DAGSTER_MYSQL_USERNAME: ${DAGSTER_MYSQL_USERNAME}
       DAGSTER_MYSQL_PASSWORD: ${DAGSTER_MYSQL_PASSWORD}
       DAGSTER_MYSQL_DB: ${DAGSTER_MYSQL_DB}
-    volumes:
-      - dagster_home:/opt/dagster/dagster_home
     expose:
       - "4000"
     healthcheck:
@@ -32,8 +30,6 @@ services:
       DAGSTER_MYSQL_USERNAME: ${DAGSTER_MYSQL_USERNAME}
       DAGSTER_MYSQL_PASSWORD: ${DAGSTER_MYSQL_PASSWORD}
       DAGSTER_MYSQL_DB: ${DAGSTER_MYSQL_DB}
-    volumes:
-      - dagster_home:/opt/dagster/dagster_home
     ports:
       - "3000:3000"
     depends_on:
@@ -57,15 +53,10 @@ services:
       DAGSTER_MYSQL_USERNAME: ${DAGSTER_MYSQL_USERNAME}
       DAGSTER_MYSQL_PASSWORD: ${DAGSTER_MYSQL_PASSWORD}
       DAGSTER_MYSQL_DB: ${DAGSTER_MYSQL_DB}
-    volumes:
-      - dagster_home:/opt/dagster/dagster_home
     depends_on:
       dagster-code:
         condition: service_healthy
     command: 
       - dagster-daemon
       - run
-      
-      
-volumes:
-  dagster_home:
+    
